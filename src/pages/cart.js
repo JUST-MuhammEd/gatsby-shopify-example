@@ -15,7 +15,7 @@ const CartPage = ({ data }) => {
 	const variants = data.allShopifyProductVariant.nodes
 
 	const lineItems = useCartItems()
-	const { tax, total } = useCartTotals()
+	const { total } = useCartTotals()
 	const removeFromCart = useRemoveItemFromCart()
 	const checkout = useCheckout()
 

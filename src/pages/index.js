@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link } from 'gatsby'
-
+import { graphql } from 'gatsby'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import Tile from '../components/tile'
@@ -19,7 +18,7 @@ const IndexPage = ({ data }) => (
 			{data.allShopifyProduct.edges.map(({ node }) => {
 				const { minVariantPrice, maxVariantPrice } = node.priceRange
 				const priceRange =
-					minVariantPrice.amount == maxVariantPrice.amount
+					minVariantPrice.amount === maxVariantPrice.amount
 						? `R${Number(minVariantPrice.amount).toFixed(2)}`
 						: `R${Number(minVariantPrice.amount).toFixed(2)}-R${Number(
 								maxVariantPrice.amount

@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
 import Img from 'gatsby-image'
+import { graphql } from 'gatsby'
 import { prepareVariantsWithOptions } from './utilities'
 import { useAddItemToCart } from '../context/StoreContext'
 
@@ -73,24 +74,26 @@ const ProductTemplate = ({ data }) => {
 					<div style={{ gridColumn: '3/5' }}>
 						<label style={{ marginRight: 10 }} htmlFor="colors">
 							Colours:{' '}
+							<select
+								id="colors"
+								onChange={(event) => setColor(event.target.value)}
+							>
+								{colors.map((color) => (
+									<option value={color}>{color}</option>
+								))}
+							</select>
 						</label>
-						<select
-							id="colors"
-							onChange={(event) => setColor(event.target.value)}
-						>
-							{colors.map((color) => (
-								<option value={color}>{color}</option>
-							))}
-						</select>
 						<label style={{ margin: 10 }} htmlFor="sizes">
 							Sizes:{' '}
+							<select
+								id="sizes"
+								onChange={(event) => setSize(event.target.value)}
+							>
+								{sizes.map((size) => (
+									<option value={size}>{size}</option>
+								))}
+							</select>
 						</label>
-						<select
-							id="sizes"
-							onChange={(event) => setSize(event.target.value)}
-						>
-							{sizes.map((size) => <option value={size}>{size}</option>)}
-						</select>
 					</div>
 				) : (
 					''

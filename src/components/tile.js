@@ -1,6 +1,6 @@
 import React from 'react'
 import Img from 'gatsby-image'
-import { useStaticQuery, graphql, Link } from 'gatsby'
+import { Link } from 'gatsby'
 
 const Tile = ({ title, slug, price, image }) => {
 	return (

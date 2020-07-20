@@ -39,7 +39,9 @@ const Header = ({ siteTitle }) => {
 						textDecoration: `none`
 					}}
 				>
-					🛒Cart: {count}
+					<span role="img" aria-label="Cart">
+						🛒
+					</span>Cart: {count}
 				</Link>
 			</div>
 		</header>
