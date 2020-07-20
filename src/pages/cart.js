@@ -2,16 +2,17 @@ import React from 'react'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import Img from 'gatsby-image'
 import {
 	useCartItems,
 	useCartTotals,
-	useAddItemToCart,
 	useRemoveItemFromCart,
 	useCheckout
 } from '../context/StoreContext'
 
 const CartPage = ({ data }) => {
 	const products = data.allShopifyProduct.nodes
+	const variants = data.allShopifyProductVariant.nodes
 
 	const lineItems = useCartItems()
 	const { tax, total } = useCartTotals()
@@ -34,6 +35,17 @@ const CartPage = ({ data }) => {
 		return selectedProduct ? selectedProduct.handle : null
 	}
 
+	const getImageFluidForVariant = (variantId) => {
+		const selectedVariant = variants.find((variant) => {
+			return variant.shopifyId === variantId
+		})
+
+		if (selectedVariant) {
+			return selectedVariant.image.localFile.childImageSharp.fluid
+		}
+		return null
+	}
+
 	const LineItem = ({ item }) => (
 		<div
 			style={{
@@ -43,7 +55,7 @@ const CartPage = ({ data }) => {
 			}}
 		>
 			<div style={{ border: '2px solid black', padding: '1px' }}>
-				<p>Something</p>
+				<Img fluid={getImageFluidForVariant(item.variant.id)} />
 			</div>
 			<div>
 				<Link to={`/product/${getHandleForVariant(item.variant.id)}`}>
@@ -101,6 +113,15 @@ export const query = graphql`
 		allShopifyProductVariant {
 			nodes {
 				shopifyId
+				image {
+					localFile {
+						childImageSharp {
+							fluid(maxWidth: 120) {
+								...GatsbyImageSharpFluid_withWebp_tracedSVG
+							}
+						}
+					}
+				}
 			}
 		}
 		allShopifyProduct {

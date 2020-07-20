@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import Layout from '../components/layout'
 import SEO from '../components/seo'
+import Img from 'gatsby-image'
 import { prepareVariantsWithOptions } from './utilities'
 import { useAddItemToCart } from '../context/StoreContext'
 
@@ -43,35 +44,62 @@ const ProductTemplate = ({ data }) => {
 	return (
 		<Layout>
 			<SEO title={product.title} />
-			<h1>{product.title}</h1>
-			<div>{product.description}</div>
-			{variants.length > 1 ? (
-				<div>
-					<label htmlFor="colors">Colours: </label>
-					<select
-						id="colors"
-						onChange={(event) => setColor(event.target.value)}
-					>
-						{colors.map((color) => <option value={color}>{color}</option>)}
-					</select>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'repeat(4, 1fr)',
+					gridGap: '20px'
+				}}
+			>
+				<div
+					style={{
+						border: '2px solid black',
+						padding: 5,
+						gridColumn: '1/3',
+						gridRow: '1/5',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center'
+					}}
+				>
+					<Img fluid={variant.image.localFile.childImageSharp.fluid} />
 				</div>
-			) : (
-				''
-			)}
-			{variants.length > 1 ? (
-				<div>
-					<label htmlFor="sizes">Sizes: </label>
-					<select id="sizes" onChange={(event) => setSize(event.target.value)}>
-						{sizes.map((size) => <option value={size}>{size}</option>)}
-					</select>
-				</div>
-			) : (
-				''
-			)}
+				<h1 style={{ gridColumn: '3/5' }}>{product.title}</h1>
+				<div style={{ gridColumn: '3/5' }}>{product.description}</div>
+				<strong style={{ gridColumn: '3/5', fontSize: '1.3rem' }}>
+					Price: R{variant.price}
+				</strong>
+				{variants.length > 1 ? (
+					<div style={{ gridColumn: '3/5' }}>
+						<label style={{ marginRight: 10 }} htmlFor="colors">
+							Colours:{' '}
+						</label>
+						<select
+							id="colors"
+							onChange={(event) => setColor(event.target.value)}
+						>
+							{colors.map((color) => (
+								<option value={color}>{color}</option>
+							))}
+						</select>
+						<label style={{ margin: 10 }} htmlFor="sizes">
+							Sizes:{' '}
+						</label>
+						<select
+							id="sizes"
+							onChange={(event) => setSize(event.target.value)}
+						>
+							{sizes.map((size) => <option value={size}>{size}</option>)}
+						</select>
+					</div>
+				) : (
+					''
+				)}
 
-			<p>Price: R{variant.price}</p>
-
-			<button onClick={handleAddToCart}>Add to cart</button>
+				<button style={{ gridColumn: '3/5' }} onClick={handleAddToCart}>
+					Add to cart
+				</button>
+			</div>
 		</Layout>
 	)
 }
@@ -100,6 +128,15 @@ export const query = graphql`
 				selectedOptions {
 					name
 					value
+				}
+				image {
+					localFile {
+						childImageSharp {
+							fluid {
+								...GatsbyImageSharpFluid_withWebp_tracedSVG
+							}
+						}
+					}
 				}
 			}
 			priceRange {
