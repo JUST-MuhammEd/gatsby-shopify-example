@@ -5,8 +5,8 @@ require('dotenv').config({
 module.exports = {
 	siteMetadata: {
 		title: `Shopify Gatsby Example`,
-		description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-		author: `@gatsbyjs`
+		description: `Simple example of an e-commerce site with Gatsby and Shopify`,
+		author: `Muhammed Ismail`
 	},
 	plugins: [
 		{
@@ -16,6 +16,12 @@ module.exports = {
 				shopName: process.env.SHOP_NAME,
 				// The storefront access token
 				accessToken: process.env.SHOP_TOKEN
+			}
+		},
+		{
+			resolve: `gatsby-plugin-env-variables`,
+			options: {
+				allowList: [ 'SHOP_NAME', 'SHOP_TOKEN' ]
 			}
 		},
 		`gatsby-plugin-react-helmet`,
